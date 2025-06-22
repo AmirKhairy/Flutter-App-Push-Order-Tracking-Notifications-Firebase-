@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "716620332475",
+    "project_id": "pushordertrackingnotifications",
+    "storage_bucket": "pushordertrackingnotifications.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:716620332475:android:1ebc362fe9032408ab989e",
+        "android_client_info": {
+          "package_name": "com.example.flutter_app_push_order_tracking_notifications_firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBB-y7SJNXcJM-9S81txa3r8fGCa5d545E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -24,14 +24,16 @@ class OrderCubit extends Cubit<OrderState> {
   final HttpService _httpService;
   int currentOrderStatusIndex = 0; // index of the current order status
   int?
-  currentlySendingIndex; // index of the button that is currently sending a notification
+  currentButtonSendingIndex; // index of the button that is current Button sending a notification
+
+  List<String> orderStatuses = ["Pending", "Confirmed", "Shipped", "Delivered"];
   Future<void> sendNotifiaction({
     required int newIndex,
     required String title,
     required String body,
     String? imageUrl,
   }) async {
-    currentlySendingIndex = newIndex;
+    currentButtonSendingIndex = newIndex;
 
     emit(SentNotificationLoadingState());
 
@@ -44,11 +46,11 @@ class OrderCubit extends Cubit<OrderState> {
         imageUrl: imageUrl,
       );
       currentOrderStatusIndex = newIndex;
-      currentlySendingIndex = null;
+      currentButtonSendingIndex = null;
 
       emit(SentNotificationSuccessState());
     } catch (e) {
-      currentlySendingIndex = null;
+      currentButtonSendingIndex = null;
 
       emit(SentNotificationErrorState(message: e.toString()));
     }

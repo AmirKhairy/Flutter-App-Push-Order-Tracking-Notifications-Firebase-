@@ -43,18 +43,22 @@ class OrderScreen extends StatelessWidget {
                     iconColor: Colors.orange,
                     buttonName:
                         (state is SentNotificationLoadingState &&
-                            cubit.currentlySendingIndex == 0)
+                            cubit.currentButtonSendingIndex == 0)
                         ? "Loading..."
                         : "Make Pending",
                     buttonOnTap: () {
+                      final oldStatus =
+                          cubit.orderStatuses[cubit.currentOrderStatusIndex];
+                      final newStatus = cubit.orderStatuses[0];
                       (cubit.currentOrderStatusIndex == 0 ||
                               (state is SentNotificationLoadingState &&
-                                  cubit.currentlySendingIndex == 0))
+                                  cubit.currentButtonSendingIndex == 0))
                           ? null
                           : cubit.sendNotifiaction(
                               newIndex: 0,
-                              title: "Pending Order",
-                              body: "Your order is pending for confirmation.",
+                              title: "Order Status Update with Pharma seller",
+                              body:
+                                  "Your order status changed from $oldStatus to $newStatus.",
                             );
                     },
                     connectorLine: true,
@@ -66,18 +70,22 @@ class OrderScreen extends StatelessWidget {
                     iconColor: Colors.blue,
                     buttonName:
                         (state is SentNotificationLoadingState &&
-                            cubit.currentlySendingIndex == 1)
+                            cubit.currentButtonSendingIndex == 1)
                         ? "Loading..."
                         : "Make Confirmed",
                     buttonOnTap: () {
+                      final oldStatus =
+                          cubit.orderStatuses[cubit.currentOrderStatusIndex];
+                      final newStatus = cubit.orderStatuses[1];
                       (cubit.currentOrderStatusIndex == 1 ||
                               (state is SentNotificationLoadingState &&
-                                  cubit.currentlySendingIndex == 1))
+                                  cubit.currentButtonSendingIndex == 1))
                           ? null
                           : cubit.sendNotifiaction(
                               newIndex: 1,
-                              title: "Confirmed Order",
-                              body: "Your order has been confirmed.",
+                              title: "Order Status Update with Pharma seller",
+                              body:
+                                  "Your order status changed from $oldStatus to $newStatus.",
                             );
                     },
                     connectorLine: true,
@@ -89,18 +97,22 @@ class OrderScreen extends StatelessWidget {
                     iconColor: Colors.deepPurple,
                     buttonName:
                         (state is SentNotificationLoadingState &&
-                            cubit.currentlySendingIndex == 2)
+                            cubit.currentButtonSendingIndex == 2)
                         ? "Loading..."
                         : "Make Shipped",
                     buttonOnTap: () {
+                      final oldStatus =
+                          cubit.orderStatuses[cubit.currentOrderStatusIndex];
+                      final newStatus = cubit.orderStatuses[2];
                       (cubit.currentOrderStatusIndex == 2 ||
                               (state is SentNotificationLoadingState &&
-                                  cubit.currentlySendingIndex == 2))
+                                  cubit.currentButtonSendingIndex == 2))
                           ? null
                           : cubit.sendNotifiaction(
                               newIndex: 2,
-                              title: "Shipped Order",
-                              body: "Your order has been shipped.",
+                              title: "Order Status Update with Pharma seller",
+                              body:
+                                  "Your order status changed from $oldStatus to $newStatus.",
                             );
                     },
                     connectorLine: true,
@@ -112,18 +124,22 @@ class OrderScreen extends StatelessWidget {
                     iconColor: Colors.green,
                     buttonName:
                         (state is SentNotificationLoadingState &&
-                            cubit.currentlySendingIndex == 3)
+                            cubit.currentButtonSendingIndex == 3)
                         ? "Loading..."
                         : "Make Delivered",
                     buttonOnTap: () {
+                      final oldStatus =
+                          cubit.orderStatuses[cubit.currentOrderStatusIndex];
+                      final newStatus = cubit.orderStatuses[3];
                       (cubit.currentOrderStatusIndex == 3 ||
                               (state is SentNotificationLoadingState &&
-                                  cubit.currentlySendingIndex == 3))
+                                  cubit.currentButtonSendingIndex == 3))
                           ? null
                           : cubit.sendNotifiaction(
                               newIndex: 3,
-                              title: "Delivered Order",
-                              body: "Your order has been delivered.",
+                              title: "Order Status Update with Pharma seller",
+                              body:
+                                  "Your order status changed from $oldStatus to $newStatus.",
                             );
                     },
                     connectorLine: false,

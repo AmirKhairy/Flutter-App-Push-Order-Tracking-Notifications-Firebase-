@@ -1,4 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_app_push_order_tracking_notifications_firebase/core/services/local_notification_service.dart';
 
 class FirebaseNotificationService {
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
@@ -16,14 +17,35 @@ class FirebaseNotificationService {
     }
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print(
-        '📩 Message received in foreground: ${message.notification?.title}',
-      );
+      final notification = message.notification;
+      if (notification != null) {
+        LocalNotificationService.showNotification(
+          id: message.hashCode,
+          title: notification.title ?? '',
+          body: notification.body ?? '',
+        );
+      }
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print('📬 Notification opened: ${message.notification?.title}');
+      print('📬 Notification tapped: ${message.notification?.title}');
+      // You can navigate to a specific screen here
     });
+  }
+
+  static Future<void> firebaseMessagingBackgroundHandler(
+    RemoteMessage message,
+  ) async {
+    print('📥 Background FCM message: ${message.messageId}');
+
+    final notification = message.notification;
+    if (notification != null) {
+      await LocalNotificationService.showNotification(
+        id: message.hashCode,
+        title: notification.title ?? '',
+        body: notification.body ?? '',
+      );
+    }
   }
 
   Future<String?> getDeviceToken() async {

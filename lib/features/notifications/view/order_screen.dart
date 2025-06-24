@@ -59,6 +59,8 @@ class OrderScreen extends StatelessWidget {
                               title: "Order Status Update with Pharma seller",
                               body:
                                   "Your order status changed from $oldStatus to $newStatus.",
+                              imageUrl:
+                                  'https://assets.sharikatmubasher.com/news/21421372.png',
                             );
                     },
                     connectorLine: true,
@@ -86,6 +88,8 @@ class OrderScreen extends StatelessWidget {
                               title: "Order Status Update with Pharma seller",
                               body:
                                   "Your order status changed from $oldStatus to $newStatus.",
+                              imageUrl:
+                                  'https://assets.sharikatmubasher.com/news/21421372.png',
                             );
                     },
                     connectorLine: true,
@@ -113,6 +117,8 @@ class OrderScreen extends StatelessWidget {
                               title: "Order Status Update with Pharma seller",
                               body:
                                   "Your order status changed from $oldStatus to $newStatus.",
+                              imageUrl:
+                                  'https://assets.sharikatmubasher.com/news/21421372.png',
                             );
                     },
                     connectorLine: true,
@@ -140,6 +146,8 @@ class OrderScreen extends StatelessWidget {
                               title: "Order Status Update with Pharma seller",
                               body:
                                   "Your order status changed from $oldStatus to $newStatus.",
+                              imageUrl:
+                                  'https://assets.sharikatmubasher.com/news/21421372.png',
                             );
                     },
                     connectorLine: false,

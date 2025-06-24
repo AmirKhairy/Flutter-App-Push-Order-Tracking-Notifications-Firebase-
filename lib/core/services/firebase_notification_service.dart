@@ -18,18 +18,29 @@ class FirebaseNotificationService {
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       final notification = message.notification;
+
       if (notification != null) {
         LocalNotificationService.showNotification(
           id: message.hashCode,
           title: notification.title ?? '',
           body: notification.body ?? '',
+          imageUrl: notification.android?.imageUrl,
         );
       }
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('📬 Notification tapped: ${message.notification?.title}');
-      // You can navigate to a specific screen here
+
+      final notification = message.notification;
+      if (notification != null) {
+        LocalNotificationService.showNotification(
+          id: message.hashCode,
+          title: notification.title ?? '',
+          body: notification.body ?? '',
+          imageUrl: notification.android?.imageUrl,
+        );
+      }
     });
   }
 
@@ -44,6 +55,7 @@ class FirebaseNotificationService {
         id: message.hashCode,
         title: notification.title ?? '',
         body: notification.body ?? '',
+        imageUrl: notification.android?.imageUrl,
       );
     }
   }

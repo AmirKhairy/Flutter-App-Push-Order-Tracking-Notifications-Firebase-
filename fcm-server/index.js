@@ -31,7 +31,11 @@ app.post("/send-notification", async (req, res) => {
             notification: {
                 title,
                 body,
-                image,
+            },
+            android: {
+                notification: {
+                    image,
+                },
             },
             data: {
                 click_action: "FLUTTER_NOTIFICATION_CLICK",

@@ -12,10 +12,15 @@ class OrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final notificationService = FirebaseNotificationService();
+
     return BlocProvider(
-      create: (context) =>
-          OrderCubit(FirebaseNotificationService(), HttpService())
-            ..initializeNotifications(),
+      create: (context) {
+        final cubit = OrderCubit(notificationService, HttpService());
+        notificationService.bindCubit(cubit);
+        cubit.initializeNotifications();
+        return cubit;
+      },
       child: Scaffold(
         appBar: OrderScreenAppBarWidget(),
         body: Padding(

@@ -22,3 +22,8 @@ class SentNotificationErrorState extends OrderState {
   final String message;
   SentNotificationErrorState({required this.message});
 }
+
+class UpdateStatusFromRemoteState extends OrderState {
+  final int index;
+  UpdateStatusFromRemoteState({required this.index});
+}

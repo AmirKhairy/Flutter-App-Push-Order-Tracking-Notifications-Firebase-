@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_app_push_order_tracking_notifications_firebase/core/services/firebase_notification_service.dart';
 import 'package:flutter_app_push_order_tracking_notifications_firebase/core/services/http_service.dart';
 import 'package:flutter_app_push_order_tracking_notifications_firebase/features/notifications/cubit/order_state.dart';
@@ -7,7 +8,8 @@ class OrderCubit extends Cubit<OrderState> {
   OrderCubit(this._notificationService, this._httpService)
     : super(OrderInitialState());
 
-  static OrderCubit get(context) => BlocProvider.of(context);
+  static OrderCubit get(BuildContext context) =>
+      BlocProvider.of<OrderCubit>(context);
   final FirebaseNotificationService _notificationService;
   Future<void> initializeNotifications() async {
     emit(GetNotificationLoadingState());
@@ -22,9 +24,9 @@ class OrderCubit extends Cubit<OrderState> {
   }
 
   final HttpService _httpService;
-  int currentOrderStatusIndex = 0; // index of the current order status
-  int?
-  currentButtonSendingIndex; // index of the button that is current Button sending a notification
+
+  int currentOrderStatusIndex = 0;
+  int? currentButtonSendingIndex;
 
   List<String> orderStatuses = ["Pending", "Confirmed", "Shipped", "Delivered"];
   Future<void> sendNotifiaction({
@@ -34,7 +36,6 @@ class OrderCubit extends Cubit<OrderState> {
     String? imageUrl,
   }) async {
     currentButtonSendingIndex = newIndex;
-
     emit(SentNotificationLoadingState());
 
     try {
@@ -55,4 +56,11 @@ class OrderCubit extends Cubit<OrderState> {
       emit(SentNotificationErrorState(message: e.toString()));
     }
   }
+
+  void updateOrderStatusFromFirebaseNotification(int index) {
+    currentOrderStatusIndex = index;
+    emit(UpdateStatusFromRemoteState(index: index));
+  }
+
+  
 }

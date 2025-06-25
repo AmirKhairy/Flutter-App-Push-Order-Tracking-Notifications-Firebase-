@@ -6,11 +6,19 @@ class FirebaseNotificationService {
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
   OrderCubit? _orderCubit;
 
+  // pass the cubit to the service for update the status after recieve notification from firebase console
   void bindCubit(OrderCubit cubit) {
     _orderCubit = cubit;
   }
 
+  // get the fcm token
+  Future<String?> getDeviceToken() async {
+    return await _fcm.getToken();
+  }
+
+  // initialize the firebase messaging service
   Future<void> initialize() async {
+    // request notification permission
     NotificationSettings settings = await _fcm.requestPermission();
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
@@ -22,6 +30,7 @@ class FirebaseNotificationService {
       print('⚠️ Notification permission not determined');
     }
 
+    // Listen for foreground notifications
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       final notification = message.notification;
       final data = message.data;
@@ -36,7 +45,7 @@ class FirebaseNotificationService {
       }
       _handleStatusUpdate(data, notification);
     });
-
+    // Listen for background notifications
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('📬 Notification tapped: ${message.notification?.title}');
 
@@ -47,6 +56,24 @@ class FirebaseNotificationService {
     });
   }
 
+  // Listen for notifications when the app is closed
+  static Future<void> firebaseMessagingBackgroundHandler(
+    RemoteMessage message,
+  ) async {
+    print('📥 Background FCM message: ${message.messageId}');
+
+    final notification = message.notification;
+    if (notification != null) {
+      await LocalNotificationService.showNotification(
+        id: message.hashCode,
+        title: notification.title ?? '',
+        body: notification.body ?? '',
+        imageUrl: notification.android?.imageUrl,
+      );
+    }
+  }
+
+  // Handle state updates in ui after notification
   Future<void> _handleStatusUpdate(
     Map<String, dynamic> data,
     RemoteNotification? notification,
@@ -66,25 +93,5 @@ class FirebaseNotificationService {
       _orderCubit!.updateOrderStatusFromFirebaseNotification(index);
       print('📦 Order status updated to: $status');
     }
-  }
-
-  static Future<void> firebaseMessagingBackgroundHandler(
-    RemoteMessage message,
-  ) async {
-    print('📥 Background FCM message: ${message.messageId}');
-
-    final notification = message.notification;
-    if (notification != null) {
-      await LocalNotificationService.showNotification(
-        id: message.hashCode,
-        title: notification.title ?? '',
-        body: notification.body ?? '',
-        imageUrl: notification.android?.imageUrl,
-      );
-    }
-  }
-
-  Future<String?> getDeviceToken() async {
-    return await _fcm.getToken();
   }
 }

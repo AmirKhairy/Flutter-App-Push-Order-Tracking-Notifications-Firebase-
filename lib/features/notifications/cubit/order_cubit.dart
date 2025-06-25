@@ -11,6 +11,8 @@ class OrderCubit extends Cubit<OrderState> {
   static OrderCubit get(BuildContext context) =>
       BlocProvider.of<OrderCubit>(context);
   final FirebaseNotificationService _notificationService;
+
+  // initialize notifications
   Future<void> initializeNotifications() async {
     emit(GetNotificationLoadingState());
     try {
@@ -23,11 +25,10 @@ class OrderCubit extends Cubit<OrderState> {
     }
   }
 
+  // send notification
   final HttpService _httpService;
-
   int currentOrderStatusIndex = 0;
   int? currentButtonSendingIndex;
-
   List<String> orderStatuses = ["Pending", "Confirmed", "Shipped", "Delivered"];
   Future<void> sendNotifiaction({
     required int newIndex,
@@ -37,7 +38,7 @@ class OrderCubit extends Cubit<OrderState> {
   }) async {
     currentButtonSendingIndex = newIndex;
     emit(SentNotificationLoadingState());
-
+    print(" Sending notification for index: $newIndex");
     try {
       final token = await _notificationService.getDeviceToken();
       await _httpService.sendNotification(
@@ -48,19 +49,18 @@ class OrderCubit extends Cubit<OrderState> {
       );
       currentOrderStatusIndex = newIndex;
       currentButtonSendingIndex = null;
-
+      print("Notification sent successfully");
       emit(SentNotificationSuccessState());
     } catch (e) {
       currentButtonSendingIndex = null;
-
+      print(e);
       emit(SentNotificationErrorState(message: e.toString()));
     }
   }
 
+  // update order status after firebase notification
   void updateOrderStatusFromFirebaseNotification(int index) {
     currentOrderStatusIndex = index;
     emit(UpdateStatusFromRemoteState(index: index));
   }
-
-  
 }

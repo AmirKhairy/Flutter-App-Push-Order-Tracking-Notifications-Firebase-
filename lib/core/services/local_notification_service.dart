@@ -37,7 +37,6 @@ class LocalNotificationService {
     String? imageUrl,
   }) async {
     AndroidNotificationDetails androidDetails;
-
     if (imageUrl != null && imageUrl.isNotEmpty) {
       try {
         final directory = await getTemporaryDirectory();
@@ -66,7 +65,6 @@ class LocalNotificationService {
       } catch (e) {
         print('❌ Error loading image for notification: $e');
 
-        // Fallback to text-only notification
         androidDetails = AndroidNotificationDetails(
           _channel.id,
           _channel.name,
@@ -77,7 +75,6 @@ class LocalNotificationService {
         );
       }
     } else {
-      // Text-only notification
       androidDetails = AndroidNotificationDetails(
         _channel.id,
         _channel.name,

@@ -9,7 +9,18 @@ class OrderStatusSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<OrderCubit, OrderState>(
+    return BlocConsumer<OrderCubit, OrderState>(
+      listener: (context, state) {
+        if (state is SentNotificationErrorState) {
+          print("Error: ${state.message}");
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              duration: const Duration(seconds: 5),
+            ),
+          );
+        }
+      },
       builder: (context, state) {
         final cubit = OrderCubit.get(context);
         return Column(

@@ -29,7 +29,26 @@ class FirebaseNotificationService {
         AuthorizationStatus.notDetermined) {
       print('⚠️ Notification permission not determined');
     }
+    //Handle notification tap when app was terminated
+    final RemoteMessage? initialMessage = await FirebaseMessaging.instance
+        .getInitialMessage();
 
+    if (initialMessage != null) {
+      print(
+        '🚀 App launched by terminated notification: ${initialMessage.messageId}',
+      );
+      final notification = initialMessage.notification;
+      final data = initialMessage.data;
+      if (notification != null) {
+        LocalNotificationService.showNotification(
+          id: initialMessage.hashCode,
+          title: notification.title ?? '',
+          body: notification.body ?? '',
+          imageUrl: notification.android?.imageUrl,
+        );
+      }
+      _handleStatusUpdate(data, notification);
+    }
     // Listen for foreground notifications
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       final notification = message.notification;
@@ -51,7 +70,7 @@ class FirebaseNotificationService {
 
       final notification = message.notification;
       final data = message.data;
-
+     
       _handleStatusUpdate(data, notification);
     });
   }

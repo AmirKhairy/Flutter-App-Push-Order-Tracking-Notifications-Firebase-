@@ -1,8 +1,9 @@
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:http/http.dart' as http;
+
 class HttpService {
-  final String baseUrl = "http://192.168.1.6:3000";
+  final String baseUrl = "http://192.168.1.2:3000";
 
   // send notification request
   Future<void> sendNotification({
@@ -24,8 +25,12 @@ class HttpService {
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(payload),
     );
+    if (response.statusCode == 200) {
+      print("request sent successfully: ${response.body}");
+    }
 
     if (response.statusCode != 200) {
+      print("Failed to send notification: ${response.body}");
       throw Exception("Failed to send notification: ${response.body}");
     }
   }

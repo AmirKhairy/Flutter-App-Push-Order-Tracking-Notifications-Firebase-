@@ -6,17 +6,18 @@ class GetNotificationLoadingState extends OrderState {}
 
 class GetNotificationSuccessState extends OrderState {
   final String token;
-  GetNotificationSuccessState({required this.token});
+  final String? message;
+  GetNotificationSuccessState({required this.token, this.message});
 }
 
-class GetNotificationErrorState extends OrderState {
-  final String message;
-  GetNotificationErrorState({required this.message});
-}
+class GetNotificationErrorState extends OrderState {}
 
 class SentNotificationLoadingState extends OrderState {}
 
-class SentNotificationSuccessState extends OrderState {}
+class SentNotificationSuccessState extends OrderState {
+  final String? message;
+  SentNotificationSuccessState({this.message});
+}
 
 class SentNotificationErrorState extends OrderState {
   final String message;

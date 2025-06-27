@@ -21,7 +21,7 @@ class OrderCubit extends Cubit<OrderState> {
       print(token);
       emit(GetNotificationSuccessState(token: token!));
     } catch (e) {
-      emit(GetNotificationErrorState(message: e.toString()));
+      emit(GetNotificationErrorState());
     }
   }
 
@@ -47,10 +47,12 @@ class OrderCubit extends Cubit<OrderState> {
         body: body,
         imageUrl: imageUrl,
       );
-      currentOrderStatusIndex = newIndex;
+     currentOrderStatusIndex = newIndex;
       currentButtonSendingIndex = null;
       print("Notification sent successfully");
-      emit(SentNotificationSuccessState());
+      emit(
+        SentNotificationSuccessState(message: 'Notification sent successfully'),
+      );
     } catch (e) {
       currentButtonSendingIndex = null;
       print(e);
